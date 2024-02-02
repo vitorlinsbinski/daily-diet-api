@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "knex": "node --import tsx ./node_modules/knex/bin/cli.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --log-level warn --write \"src/**/*.ts\""
   },
   "author": "Vitor Linsbinski de Oliveira",
   "license": "MIT",
   "dependencies": {
+    "@fastify/cookie": "^9.3.1",
     "dotenv": "^16.4.1",
     "fastify": "^4.26.0",
     "knex": "^3.1.0",
