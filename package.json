@@ -1,0 +1,25 @@
+{
+  "name": "daily-diet-api",
+  "version": "1.0.0",
+  "description": "An application to register your meals during the day",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --log-level warn --write \"src/**/*.ts\""
+  },
+  "author": "Vitor Linsbinski de Oliveira",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "fastify": "^4.26.0",
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
