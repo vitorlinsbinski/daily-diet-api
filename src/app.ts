@@ -4,7 +4,7 @@ import { mealsRoutes } from './routes/meals';
 import { signUpRoutes } from './routes/sign-up';
 import { signInRoutes } from './routes/sign-in';
 import { userRoutes } from './routes/user';
-import { SignOutRoutes } from './routes/sign-out';
+import { signOutRoutes } from './routes/sign-out';
 import cronJob from './utils/cleanExpiredSessions';
 
 export const app = fastify();
@@ -21,7 +21,7 @@ app.register(signInRoutes, {
   prefix: '/sign-in',
 });
 
-app.register(SignOutRoutes, {
+app.register(signOutRoutes, {
   prefix: '/sign-out',
 });
 

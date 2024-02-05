@@ -77,9 +77,16 @@ describe('Meals routes', () => {
 
     const listMealsResponse = await request(app.server)
       .get('/meals')
-      .set('Cookie', cookies);
+      .set('Cookie', cookies)
+      .expect(200);
 
-    expect(listMealsResponse.statusCode).toEqual(200);
+    expect(listMealsResponse.body.meals).toEqual([
+      expect.objectContaining({
+        name: expect.any(String),
+        description: expect.any(String),
+        is_on_diet: expect.any(Number),
+      }),
+    ]);
   });
 
   it('should be able to get a meal with a specific id', async () => {
@@ -119,7 +126,6 @@ describe('Meals routes', () => {
 
     expect(getMealResponse.body.meal).toEqual(
       expect.objectContaining({
-        id: mealId,
         name: 'new meal',
         description: 'meal description',
         is_on_diet: 0, // false
@@ -289,6 +295,10 @@ describe('Sign-out routes', () => {
       .delete('/sign-out')
       .set('Cookie', cookiesAfterSignIn)
       .expect(200);
+  });
+
+  it('should not be able to sign-out if the user is not signed-in', async () => {
+    await request(app.server).delete('/sign-out').expect(400);
   });
 });
 

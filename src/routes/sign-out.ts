@@ -1,12 +1,12 @@
 import { FastifyInstance } from 'fastify';
 import { knex } from '../database';
 
-export async function SignOutRoutes(app: FastifyInstance) {
+export async function signOutRoutes(app: FastifyInstance) {
   app.delete('/', async (req, res) => {
     const sessionId = req.cookies.sessionId;
 
     if (!sessionId) {
-      return res.status(401).send({ error: 'User is not signed in.' });
+      return res.status(400).send({ error: 'User is not signed in.' });
     }
 
     try {
