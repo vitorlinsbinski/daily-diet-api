@@ -4,18 +4,50 @@ import { z } from 'zod';
 import { knex } from '../database';
 
 export async function userRoutes(app: FastifyInstance) {
+  app.get('/', { preHandler: [checkSessionIdExists] }, async (req, res) => {
+    const sessionId = req.cookies.sessionId;
+
+    try {
+      const session = await knex('sessions').where('id', sessionId).first();
+
+      if (!session) {
+        return res
+          .status(404)
+          .send({ error: 'Session not found or unauthorized.' });
+      }
+
+      const user = await knex('users').where('id', session?.user_id);
+
+      if (!user) {
+        return res
+          .status(404)
+          .send({ error: 'User not found or unauthorized.' });
+      }
+
+      return { user };
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).send({ error: 'Internal Server Error' });
+    }
+  });
+
   app.get(
-    '/:id/metrics',
+    '/metrics',
     { preHandler: [checkSessionIdExists] },
     async (req, res) => {
-      const getUserParamsSchema = z.object({
-        id: z.string(),
-      });
-
-      const { id: userId } = getUserParamsSchema.parse(req.params);
+      const sessionId = req.cookies.sessionId;
 
       try {
-        const user = await knex('users').where('id', userId).first();
+        const session = await knex('sessions').where('id', sessionId).first();
+
+        if (!session) {
+          return res
+            .status(404)
+            .send({ error: 'Session not found or unauthorized.' });
+        }
+
+        const user = await knex('users').where('id', session?.user_id).first();
 
         if (!user) {
           return res
@@ -24,7 +56,7 @@ export async function userRoutes(app: FastifyInstance) {
         }
 
         const userMeals = await knex('meals')
-          .where('user_id', userId)
+          .where('user_id', user.id)
           .select('*');
 
         const mealsWithinTheDiet = userMeals.filter((meal) => meal.is_on_diet);

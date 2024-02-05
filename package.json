@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "knex": "node --import tsx ./node_modules/knex/bin/cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "format": "prettier --log-level warn --write \"src/**/*.ts\""
   },
   "author": "Vitor Linsbinski de Oliveira",
@@ -23,7 +23,10 @@
   "devDependencies": {
     "@types/node": "^20.11.16",
     "@types/node-cron": "^3.0.11",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^6.3.4",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
   }
 }
