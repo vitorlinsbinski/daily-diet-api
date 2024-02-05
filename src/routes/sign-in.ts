@@ -11,25 +11,29 @@ export async function signInRoutes(app: FastifyInstance) {
 
     const { email } = userDataBodySchema.parse(req.body);
 
-    const sessionId = randomUUID();
-
-    if (sessionId) {
-      return res.status(200).send('User is already logged in.');
-    }
+    const sessionId = req.cookies.sessionId;
 
     const user = await knex('users').where('email', email).first();
 
+    if (sessionId && user) {
+      return res.status(200).send('User is already logged in.');
+    }
+
     if (user) {
-      const sessionId = randomUUID();
+      const newSessionId = randomUUID();
+
+      const expiresIn = 60 * 60 * 24 * 7; // 7 days in seconds
 
       await knex('sessions').insert({
-        id: sessionId,
+        id: newSessionId,
         user_id: user.id,
+        expires_at: knex.raw('CURRENT_TIMESTAMP + 604800'),
       });
 
-      res.cookie('sessionId', sessionId, {
+      res.cookie('sessionId', newSessionId, {
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        expires: new Date(Date.now() + expiresIn * 1000),
+        httpOnly: true,
       });
 
       return res.status(200).send('Login successful.');

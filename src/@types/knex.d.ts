@@ -12,6 +12,7 @@ declare module 'knex/types/tables' {
       id: string;
       user_id: string;
       created_at: string;
+      expires_at: string;
     };
 
     meals: {
@@ -21,6 +22,7 @@ declare module 'knex/types/tables' {
       created_at: string;
       is_on_diet: boolean;
       user_id: string;
+      updated_at: string;
     };
   }
 }
