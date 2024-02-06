@@ -31,6 +31,10 @@ export async function mealsRoutes(app: FastifyInstance) {
       .select('meals.*')
       .first();
 
+    if (!meal) {
+      return res.status(404).send({ error: 'Meal not found.' });
+    }
+
     return { meal };
   });
 

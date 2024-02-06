@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { knex } from '../database';
 
 export async function checkSessionIdExists(
   req: FastifyRequest,
@@ -6,7 +7,9 @@ export async function checkSessionIdExists(
 ) {
   const sessionId = req.cookies.sessionId;
 
-  if (!sessionId) {
+  const session = await knex('meals').where('id', sessionId).first();
+
+  if (!sessionId && !session) {
     return res.status(401).send({
       error: 'Unauthorized. Please, sign-in or sign-up.',
     });

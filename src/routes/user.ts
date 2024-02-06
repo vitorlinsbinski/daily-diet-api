@@ -10,12 +10,6 @@ export async function userRoutes(app: FastifyInstance) {
     try {
       const session = await knex('sessions').where('id', sessionId).first();
 
-      if (!session) {
-        return res
-          .status(404)
-          .send({ error: 'Session not found or unauthorized.' });
-      }
-
       const user = await knex('users').where('id', session?.user_id);
 
       if (!user) {
@@ -40,12 +34,6 @@ export async function userRoutes(app: FastifyInstance) {
 
       try {
         const session = await knex('sessions').where('id', sessionId).first();
-
-        if (!session) {
-          return res
-            .status(404)
-            .send({ error: 'Session not found or unauthorized.' });
-        }
 
         const user = await knex('users').where('id', session?.user_id).first();
 
