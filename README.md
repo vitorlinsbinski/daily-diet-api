@@ -30,7 +30,7 @@
 
 ## API endpoints
 
-### Meals
+## • Meals
 
 #### GET /meals
 
@@ -68,7 +68,7 @@ Update details of a specific meal for the authenticated user, sending the data t
 
 Delete a specific meal for the authenticated user.
 
-### User
+## • User
 
 #### GET /user:
 
@@ -78,7 +78,7 @@ Retrieve details of the authenticated user.
 
 Retrieve metrics for the authenticated user.
 
-### Authentication
+## • Authentication
 
 #### POST /sign-up:
 
